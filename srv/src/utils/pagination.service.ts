@@ -8,6 +8,6 @@ export class PaginationService {
 
         const skip = _limit * (_page - 1)
 
-        return { take: _limit, skip }
+        return { skip, page: _page, limit: _limit }
     }
 }

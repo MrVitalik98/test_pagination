@@ -7,9 +7,9 @@ services:
       dockerfile: Dockerfile
       target: development
     image: server-side:${ENV}
-    container_name: backend
+    container_name: api
     ports:
-      - 5000:3000
+      - 3000:3000
     networks:
       - test_net
     depends_on:
@@ -17,7 +17,7 @@ services:
     volumes:
       - ./srv:/usr/src/app
       - /usr/src/app/node_modules
-    restart: unless-stopped
+    restart: always
     env_file:
       - ./srv/.env.${ENV}
     command: npm run start:dev
@@ -35,7 +35,28 @@ services:
       - test_net
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    restart: unless-stopped
+    restart: always
+
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+      target: development
+    image: client-side:${ENV}
+    container_name: web
+    ports:
+      - 3001:3001
+    networks:
+      - test_net
+    depends_on:
+      - api-server
+    volumes:
+      - ./web:/app
+      - /app/node_modules
+    restart: always
+    # env_file:
+    #   - ./web/.env.${ENV}
+    command: npm run dev
 
 networks:
   test_net:

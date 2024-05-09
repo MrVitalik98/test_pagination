@@ -11,7 +11,10 @@ export class UserController {
   @Get()
   async getAllUsers(@Query() query: IQuery) {
     this.logger.log('Get all users');
-    const users = await this.userService.findAll(query);
-    return users.map((user) => UsersResponseDto.fromUsersEntity(user));
+    const result = await this.userService.findAll(query);
+    return {
+      ...result,
+      data: result.data.map((user) => UsersResponseDto.fromUsersEntity(user))
+    }
   }
 }
