@@ -1,0 +1,18 @@
+export default () => {
+  const pg = new URL(process.env.APP_PG_URL)
+
+  return {
+    type: 'postgres',
+    host: pg.hostname,
+    port: parseInt(pg.port),
+    username: pg.username,
+    password: pg.password,
+    database: pg.pathname.slice(1),
+    ssl: pg.searchParams.get('sslmode') !== 'disable',
+    autoLoadEntities: true,
+    // it is unsafe to use synchronize: true for schema synchronization on production
+    synchronize: false, // process.env.NODE_ENV === 'development',
+    logging: process.env.NODE_ENV === 'development',
+    useUTC: true,
+  }
+}

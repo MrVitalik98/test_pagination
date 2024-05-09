@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  api-server:
+    build:
+      context: ./srv
+      dockerfile: Dockerfile
+      target: development
+    image: server-side:${ENV}
+    container_name: backend
+    ports:
+      - 5000:3000
+    networks:
+      - test_net
+    depends_on:
+      - postgres
+    volumes:
+      - ./srv:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped
+    env_file:
+      - ./srv/.env.${ENV}
+    command: npm run start:dev
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres-container
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root456
+      POSTGRES_DB: test_pagination
+    ports:
+      - 5432:5432
+    networks:
+      - test_net
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+networks:
+  test_net:
+    driver: bridge
+
+volumes:
+  postgres_data:
