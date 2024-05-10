@@ -32,7 +32,7 @@ export const getServerSideProps: GetServerSideProps<TGetServerSideProps> = async
   try {
     const { page = 1 } = ctx.query;
 
-    const res = await fetch(`http://localhost:3000/users?page=${page}`, { method: 'GET' });
+    const res = await fetch(`http://api-server:3000/users?page=${page}`, { method: 'GET' });
 
     if (!res.ok) {
       return {
@@ -49,6 +49,7 @@ export const getServerSideProps: GetServerSideProps<TGetServerSideProps> = async
       props: { statusCode: 200, users: result.data, ...result },
     };
   } catch (e) {
+    console.log('ERROR', e)
     return { props: { statusCode: 500, users: [] } };
   }
 };

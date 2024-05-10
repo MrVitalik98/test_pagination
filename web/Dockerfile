@@ -1,5 +1,5 @@
 # Development stage
-FROM node:latest AS development
+FROM node:21-alpine AS development
 
 # Set working directory
 WORKDIR /app
@@ -18,7 +18,7 @@ EXPOSE 3001
 CMD ["npm", "run", "dev"]
 
 # Production stage
-FROM node:latest AS production
+FROM node:21-alpine AS production
 
 # Set working directory
 WORKDIR /app
