@@ -109,15 +109,19 @@ export default function Home({
             </tbody>
           </Table>
 
-          <Pagination
-            itemClass="page-item"
-            linkClass="page-link"
-            activePage={page ?? 1}
-            itemsCountPerPage={limit}
-            totalItemsCount={total ?? 0}
-            pageRangeDisplayed={10}
-            onChange={handlePageChange}
-          />
+          {
+            users?.length
+              ? (<Pagination
+                itemClass="page-item"
+                linkClass="page-link"
+                activePage={page ?? 1}
+                itemsCountPerPage={limit}
+                totalItemsCount={total ?? 0}
+                pageRangeDisplayed={10}
+                onChange={handlePageChange}
+              />)
+                : ''
+          }
         </Container>
       </main>
     </>
